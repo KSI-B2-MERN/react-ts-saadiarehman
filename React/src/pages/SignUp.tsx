@@ -31,14 +31,21 @@ function SignUp() {
     const onRoleChange = ((role: string) => {
         setRole(role);
     });
-    const SignUp = (() => {
-        console.log(fname);
-        console.log(lname);
-        console.log(password);
-        console.log(username);
-        console.log(role);
+    const SignUp = async () => {
+        const loginRes = await axios.post("http://localhost:3000/auth/signup", {
+            fName: fname,
+            lName: lname,
+            username: username,
+            password: password,
+            role: role,
+        });
+        if (loginRes.data) {
+            alert("logged in successfuly");
+        } else {
+            alert("incorrect username/password");
+        }
 
-    })
+    }
 
     return (
         <>
