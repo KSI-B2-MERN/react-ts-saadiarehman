@@ -1,5 +1,37 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+type Users={
+    fname: string,
+    lname:string,
+    username:string,
+    id:number,
+    role:string
+};
 
 function NavBar() {
+    const [userData, setUserData] = useState<Users[]>([])
+    
+   
+        const getUserData = async () => {
+            try {
+              const Response = await axios.get("http://localhost:3000/users/getUser", {
+                params: {
+                  id: 1
+                },
+              });
+          
+              setUserData(Response.data);
+              console.log(Response.data)
+            } catch (error) {
+              console.error("Error fetching user data:", error);
+              // Handle error, e.g., show an error message to the user
+            }
+          };
+      
+    useEffect(()=>{
+        void getUserData();
+    },[]);
+    
     return(
         <>
         <div className="h-16  bg-blue-600 shadow-md shadow-white-200 flex justify-between text-white">
@@ -13,8 +45,8 @@ function NavBar() {
                 <img src="src\assets\smiley.png" className="h-10 w-10" alt="" />
             </div>
             <div className="text-semibold p-2">
-                <p>{"saadia rehman"}</p>
-                <p>{"Trainee"}</p>
+                <p>{`${userData.fname+" "+userData.lname}`}</p>
+                <p className="ml-2">{userData.role==1? "Trainee":"Instructor"}</p>
             </div>
         </div>
        
